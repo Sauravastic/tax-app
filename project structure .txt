@@ -1,0 +1,105 @@
+Inventory and SmartBill Generator - Project Structure
+======================================================
+
+Project root
+------------
+.
+|-- .env                              Environment variables and secrets (do not commit)
+|-- .env.example                      Example environment variable template
+|-- .gitignore                         Git ignore rules
+|-- bun.lock                           Bun dependency lock file
+|-- index.html                        Vite HTML entry point
+|-- metadata.json                     Project metadata
+|-- package.json                      Dependencies and npm scripts
+|-- package-lock.json                 npm dependency lock file
+|-- README.md                         Local setup and deployment notes
+|-- server.ts                         Express server, Vite middleware, APIs, Supabase Auth
+|-- supabase-migration.sql            Generic legacy migration table schema
+|-- supabase-domain-migration.sql     Domain-specific Supabase table schema
+|-- tsconfig.json                     TypeScript compiler configuration
+|-- vite.config.ts                    Vite, React, Tailwind, and development server config
+|-- project structure .txt            This project structure document
+|
+|-- src
+    |-- App.tsx                       Main React application and authenticated dashboard shell
+    |-- index.css                     Tailwind import and global responsive styles
+    |-- main.tsx                      React application bootstrap
+    |
+    |-- components
+    |   |-- AuditLogView.tsx           Audit log listing and review screen
+    |   |-- BusinessSettingsView.tsx   Business profile and billing settings
+    |   |-- CopilotFloatingLauncher.tsx Floating Gemini assistant launcher
+    |   |-- CustomerManagerView.tsx    Customer creation, editing, search, and deletion
+    |   |-- DashboardView.tsx           Main business dashboard and metrics
+    |   |-- GSTReportView.tsx           GST reports and separate Quick Bill turnover
+    |   |-- InvoiceBuilder.tsx          GST invoice and Quick Bill creation workflow
+    |   |-- InvoiceHistoryView.tsx     Invoice and Quick Bill history
+    |   |-- InvoicePreviewModal.tsx    Preview, issue, print, PDF, share, payment, and close actions
+    |   |-- LoginView.tsx               Supabase Auth login, forgot password, and reset password UI
+    |   |-- Navbar.tsx                  Top navigation, Quick Bill, invoice, and logout controls
+    |   |-- PaymentsView.tsx             Payment collection and receipt history
+    |   |-- ProductManagerView.tsx      Product catalog, stock, and inventory management
+    |   |-- Sidebar.tsx                  Dashboard navigation sidebar
+    |   |-- SmartAssistantModal.tsx      Gemini business assistant chat interface
+    |   |-- TestSuiteModal.tsx           Internal GST test component retained but removed from navigation
+    |
+    |-- locales
+    |   |-- translations.ts             English and Hindi interface translations
+    |
+    |-- services
+    |   |-- exportService.ts            CSV and report export utilities
+    |   |-- gstEngine.ts                Deterministic GST and invoice total calculations
+    |   |-- gstEngineTest.ts             GST calculation test cases
+    |   |-- gstinValidator.ts            Indian GSTIN validation helpers
+    |   |-- invoiceValidator.ts          Invoice and tax consistency validation
+    |   |-- numberToWords.ts              Indian currency amount-to-words conversion
+    |   |-- storage.ts                   Local cache, invoice, product, customer, payment, and sync helpers
+    |   |-- supabaseServer.ts             Server-only Supabase client using the service-role key
+    |   |-- taxRuleDatabase.ts            GST tax rules and HSN/SAC reference data
+    |
+    |-- types
+        |-- index.ts                   Shared TypeScript models for invoices, products, customers, payments, and users
+
+Main technology flow
+--------------------
+React frontend
+    -> Express API in server.ts
+    -> Supabase Auth for login sessions and password recovery
+    -> Supabase PostgreSQL for database persistence
+    -> Google Gemini API for assistant and HSN suggestions
+
+Important database tables
+-------------------------
+- businesses                         Default business and business ownership records
+- customers                          Customer records
+- smartbill_business_profiles        Business profile payloads
+- smartbill_products                 Product and inventory payloads
+- smartbill_invoices                 Invoice and Quick Bill payloads
+- smartbill_payments                 Payment payloads
+- smartbill_inventory_logs           Inventory movement payloads
+- smartbill_audit_logs               Audit history payloads
+- smartbill_records                  Legacy generic migration table
+
+Important API areas in server.ts
+--------------------------------
+- /api/health                       Public health check
+- /api/auth/login                   Supabase email/password login
+- /api/auth/session                 Current authenticated session
+- /api/auth/logout                  Session logout
+- /api/auth/forgot-password         Password reset email request
+- /api/auth/reset-password          Password update from recovery link
+- /api/customers                    Customer CRUD and migration
+- /api/products                     Product create/update/delete sync
+- /api/invoices                     Invoice persistence
+- /api/payments                     Payment persistence
+- /api/migrate-local-data           Legacy browser-data migration endpoint
+- /api/ai/*                         Gemini assistant and HSN suggestion endpoints
+
+Common commands
+---------------
+npm install                         Install dependencies
+npm run dev                         Start the development server on port 3000
+npm run lint                        Run the TypeScript check
+npm run build                       Build the frontend and production server
+npm start                           Start the production server
+npm run clean                       Remove generated build output

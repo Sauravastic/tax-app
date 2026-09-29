@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		min-width: 320px;
+		overflow-x: hidden;
+	}
+
+	body {
+		min-width: 320px;
+		overflow-x: hidden;
+	}
+
+	button,
+	input,
+	select,
+	textarea {
+		max-width: 100%;
+	}
+
+	input,
+	select,
+	textarea {
+		font-size: max(16px, 1em);
+	}
+}
+
+@layer utilities {
+	.mobile-scroll-x {
+		max-width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: thin;
+	}
+
+	.mobile-dialog {
+		max-height: calc(100dvh - 2rem);
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+@media (max-width: 639px) {
+	.mobile-stack-actions {
+		width: 100%;
+	}
+
+	.mobile-stack-actions > button {
+		flex: 1 1 0;
+	}
+}

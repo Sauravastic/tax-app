@@ -1,0 +1,8 @@
+{
+  "name": "Inventory and SmartBill Generator",
+  "description": "Production-ready GST Billing, Tax Invoice, Business Accounting, and Invoice Management platform for India with English & Hindi support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
